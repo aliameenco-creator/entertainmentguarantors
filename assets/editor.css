@@ -1,0 +1,16 @@
+/* Block editor: site fonts and colours so the pages are easy to read and edit (layout effects are front-end only). */
+body{font-family:'Manrope',Arial,sans-serif;color:#2a2a31;font-size:17px;line-height:1.7}
+h1,h2,h3,.wp-block-heading{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-.01em;color:#0d0d0f}
+.eg-hero,.eg-films,.eg-cta,.eg-what,.eg-card,.eg-banner,.eg-form-card{padding:28px;border-radius:14px;background:#0d0d0f;color:#fff}
+.eg-hero h1,.eg-banner h1,.eg-cta h2,.eg-what h2,.eg-what h3{color:#fff}
+.eg-cta,.eg-card-2{background:#120f76}
+.eg-what{background:#121f36}
+.eg-service{padding:20px;border-radius:14px;background:#fff;color:#2a2a31}
+.eg-service h3{color:#121f36}
+.eg-intro,.eg-team,.eg-insurance,.eg-contact-hero,.eg-band{padding:28px;background:#f5f2ec}
+.eg-slider,.eg-logos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.eg-card-no,.eg-service-no{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:40px;color:#c9b38a}
+.eg-member-role,.eg-eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#120f76}
+.wp-block-button__link{border-radius:999px;background:#c9b38a;color:#0d0d0f;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.is-style-eg-ghost .wp-block-button__link{background:transparent;border:1px solid #fff;color:#fff}
+.is-style-eg-outline .wp-block-button__link{background:transparent;border:1px solid #0d0d0f;color:#0d0d0f}

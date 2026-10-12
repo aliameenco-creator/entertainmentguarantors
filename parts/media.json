@@ -4,125 +4,161 @@
   "file": "assets/img/ea493be3983d171e-520.webp",
   "name": "alliotts-logo",
   "alt": "Alliotts logo",
-  "title": "Alliotts logo"
+  "title": "Alliotts logo",
+  "width": 520,
+  "height": 99
  },
  {
   "key": "d384d69c32f14c03",
   "file": "assets/img/d384d69c32f14c03-1920.webp",
   "name": "david-tennant-in-mad-to-be-normal",
   "alt": "David Tennant in Mad to Be Normal",
-  "title": "David Tennant in Mad to Be Normal"
+  "title": "David Tennant in Mad to Be Normal",
+  "width": 1200,
+  "height": 800
  },
  {
   "key": "a19fb513189189ae",
   "file": "assets/img/a19fb513189189ae-700.webp",
   "name": "dusty-me-film-poster",
   "alt": "Dusty & Me film poster",
-  "title": "Dusty & Me film poster"
+  "title": "Dusty & Me film poster",
+  "width": 700,
+  "height": 1028
  },
  {
   "key": "36d360af78b798af",
   "file": "assets/img/36d360af78b798af-1920.webp",
   "name": "entertainment-guarantors-hero-film-still",
   "alt": "Film still used as the homepage hero background",
-  "title": "Entertainment Guarantors hero film still"
+  "title": "Entertainment Guarantors hero film still",
+  "width": 1920,
+  "height": 1080
  },
  {
   "key": "82e8c19c27d55f17",
   "file": "assets/img/82e8c19c27d55f17-433.webp",
   "name": "entertainment-guarantors-logo",
   "alt": "Entertainment Guarantors - Supporting the Film Industry",
-  "title": "Entertainment Guarantors logo"
+  "title": "Entertainment Guarantors logo",
+  "width": 433,
+  "height": 116
  },
  {
   "key": "8557c360e622e137",
   "file": "assets/img/8557c360e622e137-1920.webp",
   "name": "entertainment-guarantors-team-banner-film-still",
-  "alt": "Still from the film Dusty & Me",
-  "title": "Entertainment Guarantors team banner film still"
+  "alt": "Film still from Dusty & Me: a couple walking beside a yellow convertible",
+  "title": "Entertainment Guarantors team banner film still",
+  "width": 800,
+  "height": 533
  },
  {
   "key": "9571321d996e214c",
   "file": "assets/img/9571321d996e214c-1000.webp",
   "name": "film-still-of-a-man-and-a-woman-running-through-a-forest",
   "alt": "Film still of a man and a woman running through a forest",
-  "title": "Film still of a man and a woman running through a forest"
+  "title": "Film still of a man and a woman running through a forest",
+  "width": 1000,
+  "height": 1500
  },
  {
   "key": "fa74b44a5695e98e",
   "file": "assets/img/fa74b44a5695e98e-520.webp",
   "name": "lee-thompson-logo",
   "alt": "Lee & Thompson logo",
-  "title": "Lee & Thompson logo"
+  "title": "Lee & Thompson logo",
+  "width": 520,
+  "height": 127
  },
  {
   "key": "24df36de3fedebfe",
   "file": "assets/img/24df36de3fedebfe-520.webp",
   "name": "lloyd-s-logo",
   "alt": "Lloyd's logo",
-  "title": "Lloyd's logo"
+  "title": "Lloyd's logo",
+  "width": 471,
+  "height": 107
  },
  {
   "key": "34a2a055122ceec1",
   "file": "assets/img/34a2a055122ceec1-700.webp",
   "name": "mad-to-be-normal-film-poster",
   "alt": "Mad to Be Normal film poster",
-  "title": "Mad to Be Normal film poster"
+  "title": "Mad to Be Normal film poster",
+  "width": 700,
+  "height": 1037
  },
  {
   "key": "9563a453c4cefdf2",
   "file": "assets/img/9563a453c4cefdf2-520.webp",
   "name": "marsh-logo",
   "alt": "Marsh logo",
-  "title": "Marsh logo"
+  "title": "Marsh logo",
+  "width": 520,
+  "height": 287
  },
  {
   "key": "7adcafa711f52406",
   "file": "assets/img/7adcafa711f52406-520.webp",
   "name": "narrum-logo",
   "alt": "Narrum logo",
-  "title": "Narrum logo"
+  "title": "Narrum logo",
+  "width": 520,
+  "height": 159
  },
  {
   "key": "1240cdb0c148a2ba",
   "file": "assets/img/1240cdb0c148a2ba-520.webp",
   "name": "orwo-logo",
   "alt": "ORWO logo",
-  "title": "ORWO logo"
+  "title": "ORWO logo",
+  "width": 355,
+  "height": 76
  },
  {
   "key": "670a4a2b876b46a8",
   "file": "assets/img/670a4a2b876b46a8-700.webp",
   "name": "property-of-the-state-film-poster",
   "alt": "Property of the State film poster",
-  "title": "Property of the State film poster"
+  "title": "Property of the State film poster",
+  "width": 700,
+  "height": 1035
  },
  {
   "key": "6a4e1f947c30f539",
   "file": "assets/img/6a4e1f947c30f539-2000.webp",
   "name": "scene-still-from-the-film-solis",
   "alt": "Scene still from the film Solis",
-  "title": "Scene still from the film Solis"
+  "title": "Scene still from the film Solis",
+  "width": 2000,
+  "height": 1334
  },
  {
   "key": "87d7d0eb26ada484",
   "file": "assets/img/87d7d0eb26ada484-700.webp",
   "name": "solis-film-poster",
   "alt": "Solis film poster",
-  "title": "Solis film poster"
+  "title": "Solis film poster",
+  "width": 700,
+  "height": 1037
  },
  {
   "key": "abac2886d885390d",
   "file": "assets/img/abac2886d885390d-700.webp",
   "name": "that-good-night-film-poster",
   "alt": "That Good Night film poster",
-  "title": "That Good Night film poster"
+  "title": "That Good Night film poster",
+  "width": 423,
+  "height": 604
  },
  {
   "key": "0224ea350e674f97",
   "file": "assets/img/0224ea350e674f97-700.webp",
   "name": "the-comedian-s-guide-to-survival-film-poster",
   "alt": "The Comedian's Guide to Survival film poster",
-  "title": "The Comedian's Guide to Survival film poster"
+  "title": "The Comedian's Guide to Survival film poster",
+  "width": 700,
+  "height": 1037
  }
 ]

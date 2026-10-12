@@ -81,6 +81,7 @@ add_action( 'admin_post_eg_media_import', function () {
         echo '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=' . esc_url( $next ) . '"><title>Adding images…</title><body style="font:16px system-ui;padding:40px;background:#0b0b0b;color:#eee"><p>Adding Entertainment Guarantors images to the Media Library: ' . (int) ( $total - $left ) . ' of ' . (int) $total . '…</p><p><a style="color:#fff" href="' . esc_url( $next ) . '">Continue</a></p>';
         exit;
     }
+    if ( get_option( 'eg_setup_continue' ) ) { wp_safe_redirect( eg_setup_url() ); exit; }
     wp_safe_redirect( admin_url( 'upload.php?eg_media=done' ) );
     exit;
 } );

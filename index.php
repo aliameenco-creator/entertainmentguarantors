@@ -2,7 +2,7 @@
 /** Posts, archives and search (the original site has no blog; this keeps any future posts readable). */
 get_header();
 eg_page_hero( is_search() ? 'Search: ' . get_search_query() : ( is_archive() ? wp_strip_all_tags( get_the_archive_title() ) : 'News' ) );
-echo '<section class="section"><div class="wrap post-list">';
+echo '<section class="eg-article"><div class="post-list">';
 if ( have_posts() ) {
     while ( have_posts() ) {
         the_post();

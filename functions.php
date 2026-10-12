@@ -1,9 +1,10 @@
 <?php
-/** Entertainment Guarantors theme. Layouts are theme files generated from the archived site; settings and enquiries live in WordPress. */
+/** Entertainment Guarantors theme. Pages are normal editable WordPress pages; settings and enquiries live in WordPress. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 require_once __DIR__ . '/includes/github-updater.php';
-require_once __DIR__ . '/includes/layout.php';
 require_once __DIR__ . '/includes/media.php';
+require_once __DIR__ . '/includes/content.php';
+require_once __DIR__ . '/includes/layout.php';
 require_once __DIR__ . '/includes/setup.php';
 require_once __DIR__ . '/includes/seo.php';
 require_once __DIR__ . '/includes/contact-form.php';
@@ -11,9 +12,19 @@ require_once __DIR__ . '/includes/contact-form.php';
 add_action( 'after_setup_theme', function () {
     add_theme_support( 'title-tag' );
     add_theme_support( 'post-thumbnails' );
+    add_theme_support( 'custom-logo', array( 'height' => 116, 'width' => 433, 'flex-height' => true, 'flex-width' => true ) );
     add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
     add_theme_support( 'editor-styles' );
-    add_editor_style( array( 'assets/fonts/fonts.css', 'assets/eg.css' ) );
+    add_theme_support( 'responsive-embeds' );
+    add_editor_style( array( 'assets/fonts/fonts.css', 'assets/editor.css' ) );
+    register_nav_menus( array( 'primary' => 'Main menu (header and footer)' ) );
+} );
+
+/** Button styles offered in the block editor, matching the site's buttons. */
+add_action( 'init', function () {
+    register_block_style( 'core/button', array( 'name' => 'eg-primary', 'label' => 'Gold' ) );
+    register_block_style( 'core/button', array( 'name' => 'eg-ghost', 'label' => 'White outline' ) );
+    register_block_style( 'core/button', array( 'name' => 'eg-outline', 'label' => 'Dark outline' ) );
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
@@ -26,7 +37,7 @@ add_action( 'wp_enqueue_scripts', function () {
 /** Mark the document before first paint so animations never hide content when JavaScript is off; preload the main fonts. */
 add_action( 'wp_head', function () {
     echo "<script>document.documentElement.classList.add('js')</script>\n";
-    foreach ( array( 'familjen-grotesk-latin', 'inter-latin' ) as $font ) {
+    foreach ( array( 'instrument-serif-latin', 'manrope-latin' ) as $font ) {
         echo '<link rel="preload" href="' . esc_url( get_theme_file_uri( 'assets/fonts/' . $font . '.woff2' ) ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
     }
     if ( ! has_site_icon() ) {
@@ -36,7 +47,7 @@ add_action( 'wp_head', function () {
 }, 1 );
 
 add_filter( 'body_class', function ( $classes ) {
-    if ( is_front_page() ) { $classes[] = 'eg-home'; }
+    $classes[] = eg_has_media_top() ? 'eg-media-top' : 'eg-plain-top';
     $route = eg_current_route();
     if ( $route ) { $classes[] = 'eg-page-' . $route; }
     return $classes;

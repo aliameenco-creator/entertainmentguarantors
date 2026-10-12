@@ -1,19 +1,18 @@
-/* Entertainment Guarantors theme: header, reveal, hero video, poster slider, parallax, contact form. */
+/* Entertainment Guarantors theme: header, menu, hero, film slider, reveal, parallax, contact form.
+   Works on the editable block content (theme classes); all content stays visible without JavaScript. */
 (function () {
   'use strict';
   const d = document;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $$ = (sel, root) => Array.from((root || d).querySelectorAll(sel));
+  const arrowSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>';
 
-  // Header: solid after scrolling, current page, mobile menu.
+  // Header: solid once scrolled; sits under the WordPress admin bar while that is visible (it scrolls away on phones).
   const header = d.querySelector('[data-header]');
-  const toggle = d.querySelector('.menu-toggle');
-  const nav = d.getElementById('navigation');
   const adminBar = d.getElementById('wpadminbar');
   if (header) {
-    // Solid once scrolled; sits under the WordPress admin bar while that is visible (it scrolls away on phones).
     const onScroll = () => {
-      header.classList.toggle('scrolled', window.scrollY > 12);
+      header.classList.toggle('scrolled', window.scrollY > 24);
       const bar = adminBar ? Math.max(0, adminBar.getBoundingClientRect().bottom) : 0;
       if (adminBar) header.style.top = bar + 'px';
       d.documentElement.style.setProperty('--bar', bar + 'px');
@@ -22,57 +21,42 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
   }
+
+  // Current page in the menus (also for the fallback menu).
   const norm = (p) => p.replace(/\/+$/, '') || '/';
   const here = norm(location.pathname);
-  $$('.menu a').forEach((a) => {
-    let path = '';
-    try { path = norm(new URL(a.href, location.href).pathname); } catch (e) { return; }
-    if (path === here) a.setAttribute('aria-current', 'page');
+  $$('.menu a, .footer-menu a').forEach((a) => {
+    try { if (norm(new URL(a.href, location.href).pathname) === here) a.setAttribute('aria-current', 'page'); } catch (e) { /* ignore */ }
   });
-  const closeMenu = () => {
-    if (!toggle) return;
-    toggle.setAttribute('aria-expanded', 'false');
-    if (nav) nav.classList.remove('open');
-  };
+
+  // Phone menu.
+  const toggle = d.querySelector('.menu-toggle');
+  const nav = d.getElementById('navigation');
+  const closeMenu = () => { if (toggle) { toggle.setAttribute('aria-expanded', 'false'); nav.classList.remove('open'); } };
   if (toggle && nav) {
     toggle.addEventListener('click', () => {
       const open = toggle.getAttribute('aria-expanded') !== 'true';
       toggle.setAttribute('aria-expanded', String(open));
       nav.classList.toggle('open', open);
     });
-    d.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeMenu(); toggle.focus(); } });
+    d.addEventListener('keydown', (e) => { if (e.key === 'Escape' && nav.classList.contains('open')) { closeMenu(); toggle.focus(); } });
     nav.addEventListener('click', (e) => { if (e.target.closest('a')) closeMenu(); });
-    window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMenu(); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 960) closeMenu(); });
   }
 
-  // Scroll reveal with a small stagger for siblings that appear together.
-  const items = $$('[data-reveal]');
-  if ('IntersectionObserver' in window && !reduce) {
-    const batch = new Map();
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const parent = entry.target.parentElement;
-        const n = batch.get(parent) || 0;
-        batch.set(parent, n + 1);
-        entry.target.style.transitionDelay = Math.min(n, 4) * 90 + 'ms';
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-        setTimeout(() => batch.set(parent, 0), 400);
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    items.forEach((el) => io.observe(el));
-  } else {
-    items.forEach((el) => el.classList.add('in'));
-  }
+  // Hero headline: each line (split at the line break typed in the editor) rises in; the second is italic.
+  $$('.eg-hero-title').forEach((h) => {
+    const lines = h.innerHTML.split(/<br\s*\/?>/i).map((s) => s.trim()).filter(Boolean);
+    if (!lines.length) return;
+    h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
+    h.innerHTML = lines.map((l) => '<span class="line" aria-hidden="true"><span>' + l + '</span></span>').join('');
+  });
 
-  // Hero video: the still shows first; the video fades in once it can play (HD only on wide screens).
-  const video = d.querySelector('.hero-video');
+  // Hero video: the still shows first; the video fades in once playing (HD on wide screens only).
+  const video = d.querySelector('.eg-hero-video');
   if (video && !reduce) {
     const connection = navigator.connection || {};
-    if (window.innerWidth > 800 && !connection.saveData && video.dataset.hd) {
-      video.src = video.dataset.hd;
-    }
+    if (window.innerWidth > 800 && !connection.saveData && video.dataset.hd) video.src = video.dataset.hd;
     video.addEventListener('playing', () => video.classList.add('playing'));
     video.muted = true;
     const start = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
@@ -81,17 +65,29 @@
     d.addEventListener('visibilitychange', () => { if (d.hidden) video.pause(); else start(); });
   }
 
-  // Poster slider: arrows, keyboard, mouse drag.
-  $$('[data-slider]').forEach((box) => {
-    const track = box.querySelector('.slider-track');
-    const prev = box.querySelector('.prev');
-    const next = box.querySelector('.next');
-    const step = () => Math.max(160, track.clientWidth * 0.8);
+  // Film slider: progress line, arrows, keyboard and mouse drag (native swipe on touch).
+  $$('.eg-slider').forEach((track) => {
+    track.setAttribute('tabindex', '0');
+    track.setAttribute('aria-label', 'Film posters');
+    const ui = d.createElement('div');
+    ui.className = 'eg-slider-ui';
+    ui.innerHTML = '<div class="eg-progress" aria-hidden="true"><span></span></div>'
+      + '<button class="eg-arrow prev" type="button" aria-label="Previous posters" style="transform:scaleX(-1)">' + arrowSvg + '</button>'
+      + '<button class="eg-arrow next" type="button" aria-label="Next posters">' + arrowSvg + '</button>';
+    track.after(ui);
+    const bar = ui.querySelector('.eg-progress span');
+    const prev = ui.querySelector('.prev');
+    const next = ui.querySelector('.next');
     const update = () => {
-      const max = track.scrollWidth - track.clientWidth - 2;
+      const max = track.scrollWidth - track.clientWidth;
+      const ratio = track.scrollWidth ? track.clientWidth / track.scrollWidth : 1;
+      bar.style.width = (Math.min(1, ratio) * 100).toFixed(1) + '%';
+      bar.style.transform = 'translateX(' + (max > 0 ? (track.scrollLeft / max) * ((1 / Math.min(1, ratio)) - 1) * 100 : 0).toFixed(1) + '%)';
       prev.disabled = track.scrollLeft <= 2;
-      next.disabled = track.scrollLeft >= max;
+      next.disabled = track.scrollLeft >= max - 2;
+      ui.hidden = max <= 2;
     };
+    const step = () => Math.max(180, track.clientWidth * 0.75);
     const go = (dir) => track.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' });
     prev.addEventListener('click', () => go(-1));
     next.addEventListener('click', () => go(1));
@@ -115,20 +111,45 @@
     const end = () => {
       if (!down) return;
       down = false;
-      if (moved) {
-        track.classList.remove('dragging');
-        const w = track.querySelector('.poster').offsetWidth + 24;
-        track.scrollTo({ left: Math.round(track.scrollLeft / w) * w, behavior: 'smooth' });
-      }
+      if (!moved) return;
+      track.classList.remove('dragging');
+      const card = track.firstElementChild;
+      const w = card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0) : 300;
+      track.scrollTo({ left: Math.round(track.scrollLeft / w) * w, behavior: 'smooth' });
     };
     window.addEventListener('pointerup', end);
     window.addEventListener('pointercancel', end);
     track.addEventListener('dragstart', (e) => e.preventDefault());
+    track.addEventListener('click', (e) => { if (moved) { e.preventDefault(); moved = false; } }, true);
     update();
+    window.addEventListener('load', update);
   });
 
-  // Gentle parallax for the full-width image and the services photo.
-  const layers = $$('[data-parallax]').map((box) => ({ box, img: box.querySelector('img') })).filter((l) => l.img);
+  // Scroll reveal for the editable sections (classes added here, so nothing hides without JavaScript).
+  const revealTargets = $$([
+    '.eg-intro-title', '.eg-intro-text p', '.eg-card', '.eg-band-img', '.eg-cta-inner > *', '.eg-lead', '.eg-member',
+    '.eg-partners-title', '.eg-logo', '.eg-what-lead > *', '.eg-service', '.eg-insurance-text > *', '.eg-insurance-img',
+    '.eg-eyebrow', '.eg-contact-lead', '.eg-person', '.eg-form-card', '.footer-top > *'
+  ].join(','));
+  if ('IntersectionObserver' in window && !reduce) {
+    const batch = new Map();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const parent = entry.target.parentElement;
+        const n = batch.get(parent) || 0;
+        batch.set(parent, n + 1);
+        entry.target.style.transitionDelay = Math.min(n, 5) * 90 + 'ms';
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+        setTimeout(() => batch.set(parent, 0), 450);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
+    revealTargets.forEach((el) => { el.classList.add('reveal'); io.observe(el); });
+  }
+
+  // Gentle parallax inside the framed images.
+  const layers = $$('.eg-band-img, .eg-insurance-img').map((box) => ({ box, img: box.querySelector('img') })).filter((l) => l.img);
   if (layers.length && !reduce) {
     let ticking = false;
     const run = () => {
