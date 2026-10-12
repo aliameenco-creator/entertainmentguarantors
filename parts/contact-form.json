@@ -1,0 +1,29 @@
+{
+ "title": "Contact",
+ "submit": "Submit",
+ "thanks": "Thank you. Your message has been sent.",
+ "fields": [
+  {
+   "key": "name",
+   "label": "Name",
+   "type": "text",
+   "required": true,
+   "max": 200
+  },
+  {
+   "key": "email",
+   "label": "Email",
+   "type": "email",
+   "required": true,
+   "max": 200
+  },
+  {
+   "key": "message",
+   "label": "Message",
+   "type": "textarea",
+   "required": true,
+   "max": 5000
+  }
+ ],
+ "source": "No form existed on the original Wix contact page; this minimal form is new and needs the owner's approval."
+}
